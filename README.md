@@ -2,7 +2,7 @@
 
 > Maintain one `.ai/` directory. Every AI coding tool stays in sync.
 
-**[English](#the-problem) | [中文介绍](#中文介绍)**
+**[English](README.md) | [中文](README.zh-CN.md)**
 
 Instead of maintaining separate `.claude/`, `.agents/`, and tool-specific config files, `ai-bridge` gives you a single source of truth and handles the rest.
 
@@ -107,56 +107,3 @@ This project follows the [Agent Skills](https://agentskills.io) open standard. P
 ## License
 
 MIT
-
----
-
-## 中文介绍
-
-> 只维护一个 `.ai/` 目录，所有 AI 编程工具自动保持同步。
-
-同时使用 Claude Code 和 OpenAI Codex 时，你会发现两个工具对配置文件的要求完全不同：
-
-| 需要管理的内容 | Claude Code | OpenAI Codex |
-|---|---|---|
-| 项目说明文件 | `CLAUDE.md` | `AGENTS.md` |
-| Skills 目录 | `.claude/skills/` | `.agents/skills/` |
-| MCP 服务器配置 | `.claude/settings.json` | `.codex/config.toml` |
-| Hooks 配置 | `.claude/settings.json` | `.codex/config.toml` |
-
-两套工具、两个目录、两种格式——改一处就要同步两边，非常繁琐。
-
-`ai-bridge` 的解决思路：用一个 `.ai/` 目录作为唯一的配置来源，由工具负责生成或同步到各 AI 工具所需的格式。
-
-### 工作原理
-
-```
-你的项目/
-└── .ai/                    ← 唯一需要维护的目录
-    ├── instructions.md     → 软链接到 CLAUDE.md 和 AGENTS.md
-    ├── config.yaml         → 生成 .claude/settings.json 和 .codex/config.toml
-    └── skills/             → 软链接到 .claude/skills/ 和 .agents/skills/
-```
-
-- **Skills**：两个工具都遵循 [Agent Skills](https://agentskills.io) 开放标准，格式完全相同，用软链接即可共享，零维护。
-- **说明文件**：`CLAUDE.md` 和 `AGENTS.md` 通过软链接指向同一个 `.ai/instructions.md`，编辑一次立刻生效。
-- **配置文件**：MCP 服务器和 Hooks 的格式不同（JSON vs TOML），通过 `ai-bridge sync` 从统一的 `config.yaml` 自动生成。
-
-### 快速开始
-
-```bash
-# 安装
-npm install -g ai-bridge
-
-# 在项目目录下初始化
-ai-bridge init
-
-# 编辑 .ai/instructions.md 和 .ai/config.yaml 后同步配置
-ai-bridge sync
-```
-
-### 路线图
-
-- [ ] 支持 OpenCode
-- [ ] `ai-bridge watch` 监听文件变更自动同步
-- [ ] Git Hook 集成
-- [ ] 支持更多工具（Cursor、GitHub Copilot、Gemini CLI 等）
