@@ -1,0 +1,26 @@
+{
+  "name": "ai-bridge",
+  "version": "0.1.0",
+  "description": "Unified configuration bridge for AI coding tools — maintain one .ai/ directory, sync to Claude Code, Codex, and more.",
+  "keywords": ["ai", "claude-code", "codex", "openai", "anthropic", "agent-skills", "mcp", "developer-tools"],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "ai-bridge": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
